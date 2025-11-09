@@ -1,12 +1,14 @@
-// ... tu código ...
+const express = require('express');
+const router = express.Router(); // <--- ¡ESTA LÍNEA FALTABA O ESTABA ROTA!
+const Tarea = require('../models/Tarea');
 
-// OBTENER TODAS las tareas
+// Obtener todas las tareas
 router.get('/', async (req, res) => {
   try {
     const tareas = await Tarea.find();
     res.json(tareas);
   } catch (err) {
-    console.error('Error en GET /api/tareas:', err); // <-- AÑADE ESTA LÍNEA
+    console.error('Error en GET /api/tareas:', err); // Log para Render
     res.status(500).json({ error: 'Error al obtener tareas' });
   }
 });
@@ -18,7 +20,7 @@ router.post('/', async (req, res) => {
     await nuevaTarea.save();
     res.json(nuevaTarea);
   } catch (err) {
-    console.error('Error en POST /api/tareas:', err); // <-- AÑADE ESTA LÍNEA
+    console.error('Error en POST /api/tareas:', err); // Log para Render
     res.status(500).json({ error: 'Error al crear tarea' });
   }
 });
@@ -29,7 +31,7 @@ router.put('/:id', async (req, res) => {
     const tarea = await Tarea.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(tarea);
   } catch (err) {
-    console.error('Error en PUT /api/tareas/:id:', err); // <-- AÑADE ESTA LÍNEA
+    console.error('Error en PUT /api/tareas/:id:', err); // Log para Render
     res.status(500).json({ error: 'Error al actualizar tarea' });
   }
 });
@@ -40,7 +42,7 @@ router.delete('/:id', async (req, res) => {
     await Tarea.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Tarea eliminada' });
   } catch (err) {
-    console.error('Error en DELETE /api/tareas/:id:', err); // <-- AÑADE ESTA LÍNEA
+    console.error('Error en DELETE /api/tareas/:id:', err); // Log para Render
     res.status(500).json({ error: 'Error al eliminar tarea' });
   }
 });
